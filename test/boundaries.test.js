@@ -80,7 +80,9 @@ test('the single-file build is self-contained, works offline and holds no busine
   assert.match(html, /<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-[A-Za-z0-9+/=]+'; style-src 'unsafe-inline'; img-src data:; connect-src https:\/\/generativelanguage\.googleapis\.com; font-src 'none';/);
   assert.doesNotMatch(html, /<script[^>]+src=|<link[^>]+rel="stylesheet"|type="module"/, 'no external or module scripts, no stylesheet links');
   assert.match(html, /<img class="brand-logo" src="data:image\/png;base64,[A-Za-z0-9+/=]+" alt="">/, 'the brand logo is embedded in the single-file build');
+  assert.match(html, /<link rel="icon" href="data:image\/png;base64,[A-Za-z0-9+/=]+" type="image\/png">/, 'the browser icon uses the embedded brand logo');
   assert.doesNotMatch(html, /src="assets\/team1-racing-dog-logo\.png"/, 'the single-file build has no separate logo asset');
+  assert.doesNotMatch(html, /href="assets\/team1-racing-dog-logo\.png"/, 'the single-file build has no separate browser icon asset');
   assert.equal((html.match(/<script>/g) || []).length, 1, 'exactly one inline script');
   // The CSP hash must match the script exactly, or the browser refuses to run it.
   const body = html.slice(html.indexOf('<script>') + '<script>'.length, html.lastIndexOf('</script>'));

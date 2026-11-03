@@ -56,6 +56,7 @@ export async function buildHtml(config = siteConfigFromEnv()) {
   };
   replaceOnce(/<meta http-equiv="Content-Security-Policy" content="[^"]*">/, `<meta http-equiv="Content-Security-Policy" content="${csp}">`, 'the CSP meta tag');
   replaceOnce(/src="assets\/team1-racing-dog-logo\.png"/, `src="data:image/png;base64,${brandLogo}"`, 'the brand logo');
+  replaceOnce(/href="assets\/team1-racing-dog-logo\.png"/, `href="data:image/png;base64,${brandLogo}"`, 'the browser icon');
   replaceOnce(/<link rel="stylesheet" href="style.css">/, `<style>\n${css}</style>`, 'the stylesheet link');
   replaceOnce(/<script type="module" src="main.js"><\/script>/, `<script>${scriptBody}</script>`, 'the module script tag');
   // The MIT licence asks for its notice in every copy, and this file is the copy people pass around.
