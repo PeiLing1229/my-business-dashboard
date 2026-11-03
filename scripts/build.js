@@ -42,6 +42,7 @@ export async function buildHtml(config = siteConfigFromEnv()) {
   // Inline script safety: "</script" or "<!--" inside the code would end or confuse the tag.
   const js = result.outputFiles[0].text.replace(/<\/script/gi, '<\\/script').replace(/<!--/g, '<\\!--');
   const css = readFileSync(src('style.css'), 'utf8');
+  const brandLogo = readFileSync(src('assets/team1-racing-dog-logo.png')).toString('base64');
   let html = readFileSync(src('index.html'), 'utf8');
 
   // The browser hashes exactly what sits between <script> and </script>, newline included.
@@ -54,6 +55,7 @@ export async function buildHtml(config = siteConfigFromEnv()) {
     html = html.replace(pattern, () => value);
   };
   replaceOnce(/<meta http-equiv="Content-Security-Policy" content="[^"]*">/, `<meta http-equiv="Content-Security-Policy" content="${csp}">`, 'the CSP meta tag');
+  replaceOnce(/src="assets\/team1-racing-dog-logo\.png"/, `src="data:image/png;base64,${brandLogo}"`, 'the brand logo');
   replaceOnce(/<link rel="stylesheet" href="style.css">/, `<style>\n${css}</style>`, 'the stylesheet link');
   replaceOnce(/<script type="module" src="main.js"><\/script>/, `<script>${scriptBody}</script>`, 'the module script tag');
   // The MIT licence asks for its notice in every copy, and this file is the copy people pass around.
